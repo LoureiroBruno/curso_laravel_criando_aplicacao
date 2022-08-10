@@ -97,7 +97,10 @@ pode ser realizado redirect('/login')
 ================================================================================================================================================================================
 mod 03
 
-#
+# Separamos nosso Controller da View
+# Aprendemos a usar o Blade
+# Criamos um layout utilizando componentes Blade
+# Nos aprofundamos em funcionalidades do Blade
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## lateral esquerda em “Resources > Views”, aqui ficam os nossos arquivos de view, ou seja, os nossos artigos que vão montar o HTML
@@ -161,8 +164,23 @@ e na pagina a inserir a esturura, abrindo <x-layout> e fechanddo </x-layout> e t
     @endforeach
 </x-layout>
 
-## E caso eu queira criar esse componente pela linha de comando, eu posso também, então deixa eu abrir aqui o terminal, deixa eu dar um zoom, eu posso fazer # php artisan make:component Alerta,
-então por exemplo, se eu quisesse criar um componente de alerta bastaria eu fazer isso daqui.
+## E caso eu queira criar esse componente pela linha de comando # php artisan make:component Alerta
+
+## começamos a brincar um pouco mais com o blade
+notado quando eu aperto aqui, “Ctrl + U”, para ver o código-fonte dessa página, que o apóstrofe do “Grey's Anatomy”, como chamamos aspas simples, de “Grey's Anatomy”,
+foi escapado, ele foi convertido para uma entidade HTML, e o que acontece?
+blade faz por padrão, é que sempre que exibirmos qualquer conteúdo utilizando essa sintaxe {{}} que é o antigo echo.
+blade faz é, transformar qualquer caractere que possa ter algum significado ambíguo dentro do HTML ou até de JavaScript,
+ele transforma esses caracteres em uma entidade HTML para garantir que não tenhamos nenhum problema.
+
+## existe um ataque chamado de cross site scripting, ou pela sua sigla XSS, que basicamente é um ataque onde através de um input de usuário,
+uma entrada de dados do usuário, ele consegue atacar nosso site incluindo scripts que vão ser executados e através dessa limpeza que o blade faz, ele nos previne desse tipo de ataque,
+então temos um sistema mais seguro.
+
+##  existem casos onde eu preciso passar uma variável do PHP para o JavaScript por exemplo,
+então imagina que eu tenho aqui uma tag script <script></script>, e eu quero ter a minha variável séries aqui no JavaScript contendo o valor de séries que está lá no PHP.
+Eu posso utilizar uma função que o próprio Laravel nos traz através do const series = {{ Js::from($series) }}
+ele vai fazer pegar o valor do PHP vai fazer o json_encode, vai encapsular isso, vai envolver isso dentro de uma chamada do json parse e isso vai nos trazer o resultado esperado.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ================================================================================================================================================================================

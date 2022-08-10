@@ -19,6 +19,7 @@ Route::get('/', function () {
 });
 
 /**
- * Redirecionando ao controlador series
+ * rotas de acesso dominio
  */
-Route::get('/series', [SeriesController::class, 'index']);
+Route::get('/series', [SeriesController::class, 'index'])->name('indexSeries');
+Route::get('/series/criar', [SeriesController::class, 'create'])->name('createSeries');

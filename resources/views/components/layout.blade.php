@@ -7,6 +7,7 @@
     <title>{{ $title }}</title>
 </head>
 <body>
+    <h1>{{ $header }}</h1>
     {{ $slot }}
 </body>
 </html>

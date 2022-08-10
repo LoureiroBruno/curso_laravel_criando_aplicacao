@@ -19,22 +19,11 @@ class SeriesController extends Controller
             'Grey\'s Anatomy'
         ];
 
-        /** passando por array associativo */
-        // return view('series.indexx', [
-        //     'series' => $series
-        // ]);
+        return view('series.index')->with('series', $series);
+    }
 
-        /** outra forma enxuta*/
-            // return view('series.indexx', compact('series'));
-
-            /** envio para uma view do tipo php */
-                //  return view('series.indexx', compact('series'));
-
-            /** envio para uma view do tipo blade.php */
-                // return view('series.index', compact('series'));
-
-        /** outra forma exuta com referencia envio */
-            return view('series.index')->with('series', $series);
-
+    public function create()
+    {
+        return view('series.create');
     }
 }

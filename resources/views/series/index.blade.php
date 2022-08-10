@@ -1,9 +1,16 @@
 <x-layout>
     <x-slot:title>
-        Series
-    </x-slot>
+        Series - Listar Itens
+        </x-slot>
+        <x-slot:header>
+            Listar Itens
+            </x-slot>
 
-    @foreach ($series as $serie)
-        <li>{{ $serie }}</li>
-    @endforeach
+
+            <a href="{{ route('createSeries') }}">Adicionar</a>
+            <ul>
+                @foreach ($series as $serie)
+                    <li>{{ $serie }}</li>
+                @endforeach
+            </ul>
 </x-layout>
