@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SeriesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/** Acrecentando um outra rota para efetuar um teste */
-Route::get('testederota', function () {
-    return view('welcome');
-});
+/**
+ * Redirecionando ao controlador series
+ */
+Route::get('/series', [SeriesController::class, 'listarSeries']);

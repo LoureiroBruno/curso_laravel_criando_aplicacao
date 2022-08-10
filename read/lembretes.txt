@@ -29,6 +29,61 @@ Route::get('/', function () {
 Qual a sintaxe para criar uma nova rota no Laravel?
 ## Route::verbo_http('{sua rota}', {Código_a_ser_executado});
 
------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ================================================================================================================================================================================
+mod 02
+
+# Criamos nosso primeiro controller
+# Aprendemos sobre nomes de ações no Laravel
+# Entendemos como Laravel lida com requisição e resposta
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## vamos lá começar a criar o nosso sistema de controle de séries e para isso o que eu quero fazer?
+então eu quero por exemplo, cadastrar as séries que eu já assisti, então vamos lá, eu vou criar aqui uma rota.
+primeiro vou fazer da forma manual, depois eu vou refazer de uma forma mais automatizada, então vamos lá, primeiro, eu vou vir aqui dentro de “app > Http > Controllers”, 
+e vou criar uma nova classe, então essa classe vai chamar “SeriesController” ou dentro a pasta raiz do projeto # php artisan make:controller SeriesController
+
+## ntão vou ter uma lista de séries, que vai ser um array por exemplo $series = [];, e aqui dentro vou ter o nome de várias séries, por exemplo, ’Punisher’, ‘Lost’, ‘Grey\’s Anatomy’, 
+eu tenho aqui uma lista com 3 séries, e eu quero exibir esses seriados na tela, dentro de uma lista por exemplo, então eu vou ter aqui
+ um HTML de resultado $html = ‘<ul>’;, esse HTML, vai ter uma lista, então eu vou simplesmente exibir esse HTML echo $html, então vamos lá, 
+ vou fazer um foreach ($series as $serie) {}, e aqui esse HTML vai ter um item de lista, para cada uma das minhas séries eu vou ter “li”, $html .= “<li>$serie</li>”;, 
+ e aqui no final eu posso fechar o meu “ul”, $html .= ‘</ul>’;. de forma icorreta, mas para iniciar o entendimento.
+
+
+## Tenho um controller criado, não seguindo as melhores práticas, mas está criado, agora como eu faço para quando eu acessar essa URL, o controller ser executado? Então aqui o que eu preciso fazer? 
+## retorna ao arquivo web dentro a pasta route adiconar a nova rota exemplificado.
+Route::get('/series', [SeriesController::class, 'listarSeries']);
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+================================================================================================================================================================================
+mod 03
+
+# 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##  
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+================================================================================================================================================================================
+mod 04
+
+# 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##  
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+================================================================================================================================================================================
+mod 05
+
+# 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##  
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
