@@ -7,15 +7,15 @@ mod 01
 # Vimos como o Laravel nos auxilia na investigação de erros
 
 -----------------------------------------------------------------------------------------------------------------------------------
-##  Com essa forma de instalação, vamos ter tudo na nossa máquina mesmo, vamos executar o servidor na nossa máquina, sem utilizar nenhum container do Docker, 
+##  Com essa forma de instalação, vamos ter tudo na nossa máquina mesmo, vamos executar o servidor na nossa máquina, sem utilizar nenhum container do Docker,
 ou coisa do tipo, então para isso vamos executar esse comando aqui, # composer create-project laravel/laravel nome-do-projeto
-##  a versão do Laravel no momento da gravação deste curso é a 9 para criar o projeto utilizando esta versão, 
+##  a versão do Laravel no momento da gravação deste curso é a 9 para criar o projeto utilizando esta versão,
 basta informá-la # composer create-project --prefer-dist laravel/laravel laravel_criando_aplicacao "9.1.*" ou # composer create-project laravel/laravel teste ^9
 ## ao rodar # php artisan - retorno de uma lista de funcionalidades
 ## ao rodar # php artisan serve - startado o serviço equivalente ao # php -S localhaost:8000 -t public
 ## caso necessário especificar um endereço diferente do padrão e a porta rodar # artisan serve --host=[qualquer_valor_ip] --port=[qualquer_valor_porta]
-## Dessa forma que estamos fazendo é subir um servidor web utilizando o servidor embutido do próprio PHP, só que aqui com algumas facilidades do Laravel, 
-então ele já subiu para nós, já está nos redirecionando as requisições para o arquivo de configuração para o arquivo de Bootstrap do Laravel, 
+## Dessa forma que estamos fazendo é subir um servidor web utilizando o servidor embutido do próprio PHP, só que aqui com algumas facilidades do Laravel,
+então ele já subiu para nós, já está nos redirecionando as requisições para o arquivo de configuração para o arquivo de Bootstrap do Laravel,
 então já está tudo configurado bonito, vamos lá, executar esse projeto
 
 ## quando acessa o arquivo web.php dentro a pasta routes, existe o arquivo de configuração das rotas do dominio.
@@ -41,17 +41,17 @@ mod 02
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## vamos lá começar a criar o nosso sistema de controle de séries e para isso o que eu quero fazer?
 então eu quero por exemplo, cadastrar as séries que eu já assisti, então vamos lá, eu vou criar aqui uma rota.
-primeiro vou fazer da forma manual, depois eu vou refazer de uma forma mais automatizada, então vamos lá, primeiro, eu vou vir aqui dentro de “app > Http > Controllers”, 
+primeiro vou fazer da forma manual, depois eu vou refazer de uma forma mais automatizada, então vamos lá, primeiro, eu vou vir aqui dentro de “app > Http > Controllers”,
 e vou criar uma nova classe, então essa classe vai chamar “SeriesController” ou dentro a pasta raiz do projeto # php artisan make:controller SeriesController
 
-## ntão vou ter uma lista de séries, que vai ser um array por exemplo $series = [];, e aqui dentro vou ter o nome de várias séries, por exemplo, ’Punisher’, ‘Lost’, ‘Grey\’s Anatomy’, 
+## ntão vou ter uma lista de séries, que vai ser um array por exemplo $series = [];, e aqui dentro vou ter o nome de várias séries, por exemplo, ’Punisher’, ‘Lost’, ‘Grey\’s Anatomy’,
 eu tenho aqui uma lista com 3 séries, e eu quero exibir esses seriados na tela, dentro de uma lista por exemplo, então eu vou ter aqui
- um HTML de resultado $html = ‘<ul>’;, esse HTML, vai ter uma lista, então eu vou simplesmente exibir esse HTML echo $html, então vamos lá, 
- vou fazer um foreach ($series as $serie) {}, e aqui esse HTML vai ter um item de lista, para cada uma das minhas séries eu vou ter “li”, $html .= “<li>$serie</li>”;, 
+ um HTML de resultado $html = ‘<ul>’;, esse HTML, vai ter uma lista, então eu vou simplesmente exibir esse HTML echo $html, então vamos lá,
+ vou fazer um foreach ($series as $serie) {}, e aqui esse HTML vai ter um item de lista, para cada uma das minhas séries eu vou ter “li”, $html .= “<li>$serie</li>”;,
  e aqui no final eu posso fechar o meu “ul”, $html .= ‘</ul>’;. de forma icorreta, mas para iniciar o entendimento.
 
 
-## Tenho um controller criado, não seguindo as melhores práticas, mas está criado, agora como eu faço para quando eu acessar essa URL, o controller ser executado? Então aqui o que eu preciso fazer? 
+## Tenho um controller criado, não seguindo as melhores práticas, mas está criado, agora como eu faço para quando eu acessar essa URL, o controller ser executado? Então aqui o que eu preciso fazer?
 ## retorna ao arquivo web dentro a pasta route adiconar a nova rota exemplificado.
 Route::get('/series', [SeriesController::class, 'listarSeries']);
 
@@ -62,39 +62,125 @@ mas vamos deixar porque no futuro vamos utilizar algumas funcionalidades dessa s
 
 ## E aqui se acessamos a documentação, de “Resource Controllers”, visto por exemplo em uma URL /photos utilizando o verbo get, no nosso caso verbo get URL /series, o nome da action,
 ou seja, do método do nosso controller, tende a ser index, esse é o padrão, tendemos a utilizar o nome index.
-Já utilizando o verbo get para /series/criar por exemplo, ou /series/create, utilizaríamos o método create, que vai ser o formulário de criar uma nova série e assim em diante, 
+Já utilizando o verbo get para /series/criar por exemplo, ou /series/create, utilizaríamos o método create, que vai ser o formulário de criar uma nova série e assim em diante,
 então esses aqui são os padrões para termos os nossos métodos, as nossas actions de um controller, então sempre que eu disser uma action, é um método de um controller.
 Então para começarmos a se habituar com esse padrão, vamos utilizar esses nomes aqui, então lá, ao invés utilizar public function listarSeries(),
 eu vou renomear para public function index(), então lá também na definição da rota, vamos utilizar index.
 
+## mas caso já sabia que irá utilizar todos os recursos e metodos do controlador, pode rodar # php artisan make:controller nomeDoControladorController --resource
+
+## porque que o Laravel já importou essa classe aqui use Illuminate\Http\Request?
+como que eu por exemplo receberia um ID de uma série?
+como que eu receberia os dados da minha requisição por exemplo?
+vamos entender melhor como o controller funciona antes de avançarmos com nosso projeto.
+Lembra lá no nosso treinamento de MVC, o nosso controller, a ação do nosso controller recebia por parâmetro uma requisição e retornava uma resposta,
+então isso é um comportamento que esperamos quando estamos falando de http, quando estamos falando de um controller recebemos uma requisição e devolvemos uma resposta e com Laravel
+podemos fazer exatamente isso.
+Até por isso quando criamos um controller a partir da linha de comando, essa classe já é importada, porque podemos receber por parâmetro, esse *request, essa requisição Request $request
+Então dessa forma conseguimos obter várias informações da requisição, por exemplo podemos pegar a URL, conseguimos pegar detalhes da query string, um input que viria de um formulário e etc.
+
+http://localhost:8000?id=1
+$request->get('id') vindo de um url
+
+name="id"
+$request->input('id') vindo de um formulario
+
+http://localhost/series
+$request->url()
+
+enquanto na resposta ao inves de utilizar
+# return new Response(200, ['Location' => header('Location: /login')], '');
+realizado no curso de mvc,
+pode ser realizado redirect('/login')
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ================================================================================================================================================================================
 mod 03
 
-# 
+#
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-##  
+## lateral esquerda em “Resources > Views”, aqui ficam os nossos arquivos de view, ou seja, os nossos artigos que vão montar o HTML
+## no momento de realizar o envio dos objetos ou variaveis, pode simplesmente enviar desta forma para a view:
 
+return view('cursos.listar-cursos', [
+    'series' => $series
+]);
+
+ou
+
+return view('cursos.listar-cursos', compact('series'));
+
+## ao abrir na view que temos quando inicializa o projeto do framework, ou seja, quando criamos um projeto do zero, temos essa extensão .blade.php
+Então o que é o blade?
+É basicamente uma template engine, que o Laravel utiliza, e o que é uma template engine?
+É um motor que nos ajuda, é um componente que nos ajuda a criar templates, a criar views, então com o blade, temos muitas facilidades na hora de escrever nossos códigos na view.
+
+dentro do metodo do index da classe controladora, varias formas de tratra no retorno para uma view
+
+  public function index()
+    {
+        $series = [
+            'Punisher',
+            'Lost',
+            'Grey\'s Anatomy'
+        ];
+
+        /** passando por array associativo */
+        // return view('cursos.listar-cursos', [
+        //     'series' => $series
+        // ]);
+
+        /** outra forma enxuta*/
+            // return view('cursos.listar-cursos', compact('series'));
+
+            /** envio para uma view do tipo php */
+                //  return view('cursos.listar-cursos', compact('series'));
+
+            /** envio para uma view do tipo blade.php */
+                // return view('cursos.listarCursos', compact('series'));
+
+        /** outra forma exuta com referencia envio */
+            return view('cursos.listarCursos')->with('series', $series);
+
+    }
+
+## interessante manter o mesmo padrão na forma de nomear os nomes do metodos dentro dos controllers, é  manter os menos nomes nas views.
+caso se houver por exemplo dois controles tipo series e filmes ambos com os metodos index, na view criar a pasta serie dentro dela index.blade.php e cria a pasta filme e dentro dela index.blade.php
+
+## na criação de uma arquivo layout padrão alterado apenas o content, cria a componentes no layout da pagina. marcando {{ $slot }} conteudo a ser inserido
+e na pagina a inserir a esturura, abrindo <x-layout> e fechanddo </x-layout> e tudo o que estiver dentro das tags será inserio no {{ slot }}
+
+<x-layout>
+    <x-slot:title>
+        Series
+    </x-slot>
+
+    @foreach ($series as $serie)
+        <li>{{ $serie }}</li>
+    @endforeach
+</x-layout>
+
+## E caso eu queira criar esse componente pela linha de comando, eu posso também, então deixa eu abrir aqui o terminal, deixa eu dar um zoom, eu posso fazer # php artisan make:component Alerta,
+então por exemplo, se eu quisesse criar um componente de alerta bastaria eu fazer isso daqui.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ================================================================================================================================================================================
 mod 04
 
-# 
+#
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-##  
+##
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ================================================================================================================================================================================
 mod 05
 
-# 
+#
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-##  
+##
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

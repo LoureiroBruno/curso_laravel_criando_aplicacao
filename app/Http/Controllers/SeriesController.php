@@ -11,7 +11,7 @@ class SeriesController extends Controller
      *
      * @return string
      */
-    public function index(): string
+    public function index()
     {
         $series = [
             'Punisher',
@@ -19,11 +19,22 @@ class SeriesController extends Controller
             'Grey\'s Anatomy'
         ];
 
-        $html = "<ul>";
-        foreach ($series as $serie) {
-           $html .= "<li>$serie</li>";
-        }
-        $html .= "</ul>";
-        return $html;
+        /** passando por array associativo */
+        // return view('series.indexx', [
+        //     'series' => $series
+        // ]);
+
+        /** outra forma enxuta*/
+            // return view('series.indexx', compact('series'));
+
+            /** envio para uma view do tipo php */
+                //  return view('series.indexx', compact('series'));
+
+            /** envio para uma view do tipo blade.php */
+                // return view('series.index', compact('series'));
+
+        /** outra forma exuta com referencia envio */
+            return view('series.index')->with('series', $series);
+
     }
 }
