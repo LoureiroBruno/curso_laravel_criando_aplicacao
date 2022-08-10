@@ -55,6 +55,17 @@ eu tenho aqui uma lista com 3 séries, e eu quero exibir esses seriados na tela,
 ## retorna ao arquivo web dentro a pasta route adiconar a nova rota exemplificado.
 Route::get('/series', [SeriesController::class, 'listarSeries']);
 
+## pronto ao rodar # php artisan make:controller SeriesController, foi criado a classe controladora com o nome SeriesController, e extendendo da classe Controller.
+estamos ganhando algumas funcionalidades, estamos fazendo com que o nosso controller seja um controller do Laravel em si, e ele possui diversas funcionalidades que vão ser interessante
+no futuro, com o código que temos hoje, isso não é necessário, eu posso simplesmente apagar isso aqui, sem problema nenhum, que o nosso código continua funcionando,
+mas vamos deixar porque no futuro vamos utilizar algumas funcionalidades dessa superclasse controller.
+
+## E aqui se acessamos a documentação, de “Resource Controllers”, visto por exemplo em uma URL /photos utilizando o verbo get, no nosso caso verbo get URL /series, o nome da action,
+ou seja, do método do nosso controller, tende a ser index, esse é o padrão, tendemos a utilizar o nome index.
+Já utilizando o verbo get para /series/criar por exemplo, ou /series/create, utilizaríamos o método create, que vai ser o formulário de criar uma nova série e assim em diante, 
+então esses aqui são os padrões para termos os nossos métodos, as nossas actions de um controller, então sempre que eu disser uma action, é um método de um controller.
+Então para começarmos a se habituar com esse padrão, vamos utilizar esses nomes aqui, então lá, ao invés utilizar public function listarSeries(),
+eu vou renomear para public function index(), então lá também na definição da rota, vamos utilizar index.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -21,4 +21,4 @@ Route::get('/', function () {
 /**
  * Redirecionando ao controlador series
  */
-Route::get('/series', [SeriesController::class, 'listarSeries']);
+Route::get('/series', [SeriesController::class, 'index']);

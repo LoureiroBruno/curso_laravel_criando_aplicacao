@@ -11,7 +11,7 @@ class SeriesController extends Controller
      *
      * @return string
      */
-    public function listarSeries(): string
+    public function index(): string
     {
         $series = [
             'Punisher',
