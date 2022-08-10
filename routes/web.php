@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+/** Acrecentando um outra rota para efetuar um teste */
+Route::get('testederota', function () {
+    return view('welcome');
+});

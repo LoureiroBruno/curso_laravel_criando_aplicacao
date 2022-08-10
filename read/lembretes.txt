@@ -1,11 +1,34 @@
 ================================================================================================================================================================================
 mod 01
 
-# 
+# Aprendemos o que é e para que serve um framework
+# Vimos diferentes formas de instalar o Laravel
+# Criamos uma rota usando Laravel
+# Vimos como o Laravel nos auxilia na investigação de erros
 
 -----------------------------------------------------------------------------------------------------------------------------------
 ##  Com essa forma de instalação, vamos ter tudo na nossa máquina mesmo, vamos executar o servidor na nossa máquina, sem utilizar nenhum container do Docker, 
 ou coisa do tipo, então para isso vamos executar esse comando aqui, # composer create-project laravel/laravel nome-do-projeto
+##  a versão do Laravel no momento da gravação deste curso é a 9 para criar o projeto utilizando esta versão, 
+basta informá-la # composer create-project --prefer-dist laravel/laravel laravel_criando_aplicacao "9.1.*" ou # composer create-project laravel/laravel teste ^9
+## ao rodar # php artisan - retorno de uma lista de funcionalidades
+## ao rodar # php artisan serve - startado o serviço equivalente ao # php -S localhaost:8000 -t public
+## caso necessário especificar um endereço diferente do padrão e a porta rodar # artisan serve --host=[qualquer_valor_ip] --port=[qualquer_valor_porta]
+## Dessa forma que estamos fazendo é subir um servidor web utilizando o servidor embutido do próprio PHP, só que aqui com algumas facilidades do Laravel, 
+então ele já subiu para nós, já está nos redirecionando as requisições para o arquivo de configuração para o arquivo de Bootstrap do Laravel, 
+então já está tudo configurado bonito, vamos lá, executar esse projeto
+
+## quando acessa o arquivo web.php dentro a pasta routes, existe o arquivo de configuração das rotas do dominio.
+tem as configurações de rota, então repara que é bastante simples configurarmos uma rota, eu utilizo a classe Route:: o verbo http que eu espero receber essa requisição,
+no nosso caso aqui, como eu estou acessando direto do navegador, é get, se eu quisesse receber os dados de um formulário, seria post, se fosse uma API, eu posso utilizar todos os verbos http.
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Qual a sintaxe para criar uma nova rota no Laravel?
+## Route::verbo_http('{sua rota}', {Código_a_ser_executado});
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 ================================================================================================================================================================================
