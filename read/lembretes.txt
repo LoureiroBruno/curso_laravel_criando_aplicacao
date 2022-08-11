@@ -189,8 +189,127 @@ mod 04
 #
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-##
+## Já vimos até agora o blade, que é uma baita ferramenta, mas o Laravel consegue nos ajudar além disso, não só gerando HTML através do blade, mas também ele nos ajuda com ferramentas
+específicas de front-end.
+ntão isso não é muito profissional vamos dizer assim em projetos onde temos várias dependências de front-end, porque se eu tenho só o Bootstrap, ok, mas imagina que eu tenho várias
+bibliotecas do front-end, sendo utilizadas e eu preciso acompanhar cada uma delas dessa forma, enfim, não é prático, então para isso tendemos a utilizar algum gerenciador de pacotes,
+um gerenciador de dependências do front-end.
 
+## Por exemplo, o NPM ou Yarn, então aqui por exemplo, para instalar o Bootstrap poderíamos utilizar o NPM.
+só que dessa forma precisamos conhecer alguns detalhes de front-end, para eu utilizar o Bootstrap eu não posso simplesmente, fazer o require de um arquivo CSS que ele tenha,
+porque dessa forma o que ele vai trazer para nós são os arquivos-fontes do Bootstrap, utilizando um pré-processador de CSS, que inclusive tem até treinamento disso aqui na Alura, é SASS ou SCSS.
+
+## Mas enfim, isso não vem ao caso, o ponto é, precisamos desses conhecimentos, e para não precisarmos nos preocupar tanto, principalmente quando temos várias dependências, existe uma outra
+ferramenta muito conhecida e utilizada no front-end, que é webpack.
+ O que o webpack faz super simplificando?
+ Ele tem um arquivo de configuração, onde você diz para ele o que você quer que o webpack faça com seus arquivos de front-end, qualquer coisa relacionada a front-end ele consegue fazer,
+ ele consegue mover arquivos de um local para outro, ele consegue transformar um SCSS em CSS, ele consegue pegar imagens e mover para outro local, aplicar plugins até utilizar essas imagens,
+ ele consegue fazer um monte de coisa.
+ Só que precisaríamos ter nesse arquivo de configuração do nosso webpack, só para adicionar o Bootstrap, mas tende a ser bastante verboso vamos dizer assim, é uma tarefa não muito simples.
+ Quando começamos a trabalhar com framework front-end, como React, Angular, eles já abstraem essa complexidade para nós, já trazem o webpack configurado, mais o Angular do que o React,
+por ser um framework, mas enfim, essa complexidade é um pouco escondida, mas quando trabalhamos com as dependências sendo gerenciadas por nós mesmos, acabamos precisando lidar com o webpack
+
+## então a terceira alternativa é o laravel mix
+
+## O que o Laravel Mix é?
+É basicamente um pacote JavaScript, ou seja, embora o Laravel seja um framework PHP, ele nos fornece um componente JavaScript, para facilitar na escrita de um arquivo de configuração do webpack,
+então por exemplo para eu aplicar e utilizar um plugin chamado, “post.css”, ao invés de ter a configuração na "mão",simplesmente tenho uma linha, eu aponto, eu digo onde está o conteúdo que eu quero
+fazer esse processamento, e para onde esse conteúdo vai, simples.
+
+## Então repara que utilizando o Laravel Mix, vamos muitas facilidades na hora de configurar o webpack.
+
+passo a passo
+1.0 -  Mix # npm install laravel-mix --save-dev
+1.1 - Depois crie na raiz do projeto o arquivo webpack.mix.js
+1.2 - com o seguinte conteúdo: const mix = require('laravel-mix');
+1.3 - npm run dev - copila o laravel mix
+2.0 - Bootstrap
+3.0 - configurar o webpack utilizando o Mix.
+
+obs: NPM  precisa está instalado, então é só acessar o site oficial do Node e baixar o Node, porque ele já vem com NPM,
+caso você prefira você pode utilizar uma imagem do docker por exemplo, isso não vem ao caso,
+------------------------------------------------------------------------|
+sudo snap install node --classic  nodejs                                |
+------------------------------------------------------------------------|
+
+ E para instalar o Laravel Mix, o que você precisa fazer é rodar um npm install,
+ então isso vai ler o arquivo, o “package.json”, que é como se fosse um “composer.json” só que do front-end,
+ do Node, do NPM, então o que que ele vai fazer?
+ Vai buscar os pacotes que precisa instalar, vai baixar na nossa máquina e deixar tudo pronto, e o que ele vai baixar é exatamente esse pacote Laravel Mix
+
+ ## á temos o Laravel Mix instalado, vamos instalar o Bootstrap
+ ## já vimos que existem várias formas, mas uma delas é através do gerenciador de dependência, seja NPM, ou Yarn
+ ## ntão como eu estou utilizando aqui o NPM vou utilizar o comando que eu vou rodar mas não faz diferença nenhuma se você utilizar o Yarn por exemplo
+ ## que o npm é utilizando atraves do uso do laravelmix
+ ## npm install bootstrap, e isso vai simplesmente buscar lá no repositório de pacotes de NPM, e trazer o Bootstrap
+ ## apos intalado ir a documentação sobre configurações utilizando webpack
+ eu vou vir aqui em resources no meu “app.css” que é um arquivo que já existe e vem vazio, eu vou simplesmente, renomear ele para “app.scss”
+ gora esse arquivo é um arquivo SASS e não um CSS comum, então eu posso fazer isso daqui, eu posso importar o Bootstrap, até ai é simples.
+ Só o que eu preciso fazer agora? Eu preciso fazer toda configuração para que? Para fazer com que esse meu arquivo SCSS, meu arquivo SCSS, seja compilado para CSS e venha aqui para minha pasta public.
+ Só que eu não vou precisar fazer isso daqui tudo, tudo que eu preciso fazer é editar esse arquivo aqui, “webpack.mix”
+
+mix
+.sass('resources/css/app.scss', 'public/css')
+.js('resources/js/app.js', 'public/js')
+
+
+obs: O que acontece? Eu tinha o Laravel Mix configurado já com “postCss”, agora eu estou chamando um método chamado SASS, e o SASS é uma outra dependência do webpack que eu precisaria instalar,
+o que ele vai fazer é baixar essa dependência para nós sem nem precisarmos saber qual é o plugin necessário.
+
+# npm run dev
+
+Então quando eu executo, npm run dev, o que ele vai fazer é executar o Laravel Mix, primeira vez que você rodar esse comando, ele vai baixar o plugin de SASS,
+agora na pasta que não existia antes nenhum conteudo dentro css, agora eu tenho aqui, o meu “app.css” com todo o arquivo do Bootstrap aqui. caminho: public/css/app.css
+Então para utilizar isso, que eu posso fazer? Posso ir lá no meu layout, adicionar aqui uma tag link, que vai adicionar o meu arquivo “css”, e eu poderia muito bem fazer isso daqui, /css/app.css,
+Só que em alguns casos podemos ter o nosso front-end, vindo de outro domínio.
+entao eu posso utilizar a função asset, então dentro dos meus assets, que por enquanto é a minha pasta “public”, eu vou buscar dentro de “css” um (‘css/app.css’).
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+
+** resumo **
+
+ O que fizemos aqui? Instalamos o Bootstrap utilizando o NPM, então agora o nosso “package.json”, além de tudo que já tinha, ele tem também o Bootstrap aqui, ou seja,
+ repara que ele é a única dependência que realmente temos e eu poderia muito bem ter colocado ele como dependência de desenvolvimento também, porque estamos utilizando o SASS dele,
+ mas em tempo de desenvolvimento compilamos ele para CSS.
+
+ {
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "axios": "^0.25",
+        "laravel-mix": "^6.0.49",
+        "lodash": "^4.17.19",
+        "postcss": "^8.1.14",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.54.4",
+        "sass-loader": "^12.6.0"
+    },
+    "dependencies": {
+        "bootstrap": "^5.2.0"
+    }
+}
+
+recomendado cuurso de -- webpack --
+
+Instalamos o Bootstrap, vimos na documentação como faz para utilizar o Bootstrap em uma configuração mais profissional vamos dizer assim, utilizando o webpack, para isso, o que precisamos?
+De um arquivo “sass” nosso, então criamos, só precisamos importar o Bootstrap @import "~bootstrap/scss/bootstrap";
+Agora a parte complexa é configurar o webpack, precisamos de plugin, um arquivo de configuração grande e difícil de entender, e nesse ponto o Laravel Mix brilha, olha só o que precisamos fazer?
+Uma linha, com isso estamos pegando um arquivo “sass” e convertendo, compilando ele para um CSS nessa pasta aqui sass('resources/css/app.scss', 'public/css'), bem simples na cofiguração.
+
+## resusmo ##
+
+Então um resumo super rápido, webpack é uma ferramenta que permite que tenhamos um pipeline, uma linha de execução que queiramos fazer no nosso front-end, então vamos pegar um arquivo e mover
+para outro lugar, vai transpilar um typescript para JavaScript, vai transpilar um SCSS para CSS, então essa pipeline de operações existe e utilizamos o webpack para configurar.
+E o Laravel Mix é uma ferramenta que super simplifica a configuração do webpack, aquela configuração grande que o Bootstrap nos sugeriu virou isso daqui no Mix, então a ideia desse capítulo é
+apresentar o Mix, mas claro que, para entender o valor do Mix você precisa entender as dificuldades do webpack, então de novo, eu sugiro bastante dar uma olhada no treinamento de webpack
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ================================================================================================================================================================================

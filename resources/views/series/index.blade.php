@@ -3,14 +3,14 @@
         Series - Listar Itens
         </x-slot>
         <x-slot:header>
-            Listar Itens
+            Listar Séries
             </x-slot>
 
-
-            <a href="{{ route('createSeries') }}">Adicionar</a>
-            <ul>
+            <a href="{{ route('createSeries') }}" class="btn btn-primary btn-sm mb-4" tabindex="-1" role="button"
+                aria-disabled="true">Adicionar</a>
+            <ul class="list-group">
                 @foreach ($series as $serie)
-                    <li>{{ $serie }}</li>
+                    <li class="list-group-item">{{ $serie }}</li>
                 @endforeach
             </ul>
 </x-layout>
