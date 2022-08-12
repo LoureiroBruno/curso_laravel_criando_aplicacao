@@ -23,3 +23,4 @@ Route::get('/', function () {
  */
 Route::get('/series', [SeriesController::class, 'index'])->name('indexSeries');
 Route::get('/series/criar', [SeriesController::class, 'create'])->name('createSeries');
+Route::post('/series/salvar', [SeriesController::class, 'store'])->name('storeSeries');

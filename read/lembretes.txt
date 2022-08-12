@@ -186,7 +186,10 @@ ele vai fazer pegar o valor do PHP vai fazer o json_encode, vai encapsular isso,
 ================================================================================================================================================================================
 mod 04
 
-#
+# Vimos que gerenciar o front-end pode ser trabalhoso
+# Entendemos a dificuldade de se utilizar Webpack
+# Conhecemos o Laravel Mix
+# Utilizamos o Laravel Mix para instalar e configurar o bootstrap
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Já vimos até agora o blade, que é uma baita ferramenta, mas o Laravel consegue nos ajudar além disso, não só gerando HTML através do blade, mas também ele nos ajuda com ferramentas
@@ -315,9 +318,129 @@ apresentar o Mix, mas claro que, para entender o valor do Mix você precisa ente
 ================================================================================================================================================================================
 mod 05
 
-#
+# Conhecemos o conceito de “model” no Laravel
+# Aprendemos sobre Migrations do banco de dados
+# Vimos como executar queries através da Facade DB
+# Conhecemos o Eloquent ORM
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-##
+## ao trablahar na camada do model, é necessário alterar as configurações do Laravel. Dentro da pasta "config”, temos vários arquivos de configuração.
+por exemplo de log, de envio de e-mail, de filas, e o arquivo genérico, de “app.php”, ou seja, da aplicação como toda, então aqui podemos ver coisas mais genéricas da aplicação,
+como o nome da aplicação, o ambiente no qual ela está rodando, se é produção, se é desenvolvimento, se é ambiente local, se o debug vai estar habilitado, etc.
+##  vamos olhar o arquivo de configuração de banco de dados - database.php, repara que a primeira coisa é qual é o tipo de conexão que vamos utilizar, pode ser uma MySQL, pode ser uma SQLServer,
+pode ser PostgreSQL, ou SQLite - 'default' => env('DB_CONNECTION', 'mysql'),
+entao para cada tipo de configuração de banco setado  'default' => env, será apontado nas configurações abaixo do arquivo database.php.
 
+## então pensando no SQLite, eu preciso passar algumas informações, eu preciso passar qual é o banco de dados, onde esse banco de dados vai estar, e por padrão ele está
+dentro de database_path com o nome database.sqlite e esse database_path fica onde? Aqui dentro de database, então se aqui dentro eu criar um arquivo database.sqlite minha configuração está pronta,
+não preciso fazer mais nada.
+
+##  E repara que eu poderia passar a senha, mas pensa, esse meu código de configuração ele é versionado, eu utilizo git por exemplo e envio isso para um servidor, por exemplo o GitHub, e imagine que
+isso vaza, e mesmo que não vaze, eu estou dando acesso as minhas senhas ao pessoal do GitHub, isso não é nada interessante
+**  nunca coloque credenciais, seja token, uma chave de acesso, ou senhas, dentro de código, jamais, seu código não é o local para você colocar credenciais **
+para isso vai ficar em variáveis de ambiente do seu sistema. é basicamente um valor que fica no seu sistema operacional e que as aplicações conseguem ler, então basicamente todo computador que
+você utiliza tem variáveis de ambiente.
+## Então quando você subir esse seu código em Laravel para uma AWS da vida, você tem um local para configurar variáveis de ambiente, quando você sobe para o Heroku você tem um outro local para
+configurar as variáveis de ambiente, se você está subindo em uma VPS, em um servidor que você configura, você pode definir as variáveis de ambiente
+## e no ambiente de desenvolvimento, Laravel traz aqui um “arquivo.env”, que  ele te permite criar aqui várias variáveis de ambiente e na hora que o framework vai subir, ele pega todas essas variáveis
+e lê como se fossem variáveis de ambiente.
+
+# repare que essas variáveis de ambiente estão sendo lidas através de env, essa função env lê uma variável de ambiente e retorna seu valor, simples. 'url' => env('DATABASE_URL'),
+Por isso eu posso vir aqui em DB_CONNECTION dentro do arquvi env, e mudar para SQLite, pronto, agora eu tenho o meu SQLite configurado.
+Então aqui por exemplo, DB_CONNECTION, ele está lendo a variável de ambiente chamada DB_CONNECTION, e o valor dela foi definido por mim como SQLite,
+se eu não tivesse definido ele utilizaria esse valor padrão aqui, que é uma MySQL, então aqui nesse caso como eu não estou definindo  'url' => env('DATABASE_URL'), o DB_DATABASE, ele vai utilizar esse valor padrão,
+que é o nosso database.sqlite.
+
+## Basicamente seeders são criadores de dados que podemos utilizar para já inserir o banco de dados quando uma aplicação for inicializada por exemplo, então imagina que você está trabalhando em um projeto
+e entrou uma nova pessoa na equipe e você quer que essa pessoa na equipe tenha no seu ambiente local alguns dados já inseridos no banco de dados, você pode ter isso no seeders, por exemplo, um usuário padrão com permissões de administrador e etc.
+
+## á factories são formas de você criar esses dados falsos, então por exemplo, se eu quero criar vários usuários, eu posso utilizar uma factory e lá eu consigo criar um nome de mentira, uma idade falsa, e eu consigo criar 100 usuários com uma linha
+de código só.
+
+## o que migrations?
+Migration é basicamente um versionamento do banco de dados, então você tem criação de uma tabela, de várias tabelas na verdade, e você pode desfazer uma migration, ou seja, uma migration, é um ponto de alteração no seu banco de dados, e toda migration
+pode ser desfeita e refeita de forma muito simples.
+## na criação de tabela por uso de migrations # php artisan make:migration create_series_table
+
+## a migration criada, então como que eu posso fazer para executar?
+# php artisan migrate
+
+##  Se você quiser mais detalhes sobre migrations na documentação laravel sobre database migrations, e da mesma forma que podemos rodar as migrations podemos reverter,
+então basta fazer um # php artisan migrate:rollback, isso vai desfazer a última migration, posso desfazer várias migrations e etc.
+
+## nos formularios do blade precisamos enviar de volta essa informação para que lá no nosso back-end, saibamos que esta informação realmente foi enviada por esse formulário e não de algum outro lugar, então
+embora a solução pareça complexa, para corrigirmos basta no nosso formulário adicionar @csrf, essa diretiva do blade, ele já cuida de todos os detalhes para nós.
+
+# diferença entre ORM DOCTRINE E O ORM ELOQUENT, possuem a mesma ideia na falicidade de manipulação dos dados junto ao banco de dados, com inserir, deletar, buscar.
+O Laravel também fornece um ORM, um Object relational mapping, um mapeamento do mundo orientado a objetos, para o mundo relacional,
+só que o eloquent segue um padrão bem diferente do Doctrine, lá no Doctrine temos uma entidade, é uma classe do nosso negócio, que não conhece qual é a tabela, quais são as colunas e etc
+E a outra classe que é a entity manager, que faz com que essa tabela seja inserida no meu banco de dados, e se eu quero buscar alguma coisa eu uso um repositório,
+eloquent que é o nome do ORM do Laravel, então utilizando o eloquent, usamos um outro padrão onde a mesma classe vai fazer isso tudo, ela representa uma série, ela insere uma nova série no banco de dados e ela
+busca em séries no banco, ela faz isso tudo, ou seja, ganhamos uma baita simplicidade,
+
+##  linha de comando com PHP artisan make model e o nome dessa model vai ser “serie”, simples assim.
+porém se atentar detalhes, Ele vai criar uma nova classe que é um model do eloquent ORM. exemplo # php artisan make:model Serie. será criado uma classe do tipo model Series
+com s no final.
+
+## repara que essa classe está vazia, ela só tem uma trait de HasFactory, para indicar que tem uma factory lá para podermos criar dados com ela, nem vamos utilizar isso por enquanto.
+
+## Essa model meio que é mapeada para uma tabela do banco, então se eu tenho uma classe chamada série, o eloquent ORM vai buscar uma tabela no banco de dados chamada “series”, que é exatamente o nome da tabela que temos lá,
+mas se o nome da tabela fosse “seriados” por exemplo, eu poderia ter aqui o atributo table definido como seriados, então eu consigo configurar isso, mas o padrão já vai nos atender.
+
+protected $table = "seriados";
+
+
+## E como essa classe está estendendo model, temos vários métodos que podemos utilizar, então vamos lá, no nosso controller utilizar alguns desses métodos, primeiro vamos buscar os dados utilizando essa model, então eu vou utilizar
+essa série, e eu posso fazer queries complexas e etc., mas por
+
+
+
+***********
+obs
+***********
+ public function index()
+    {
+        // $series = [
+        //     'Punisher',
+        //     'Lost',
+        //     'Grey\'s Anatomy'
+        // ];
+
+        /** nao usar */
+        // $series = DB::select('SELECT nome FROM series');
+
+    /** forma correta uso orm eloquent*/
+        $series = Serie::all();
+
+        return view('series.index')->with('series', $series);
+    }
+**********
+
+
+***********
+obs
+***********
+
+/** nao usar */
+$nomeSerie = $request->input('nome');
+        if (DB::insert('INSERT INTO series (nome) VALUES (?)', [$nomeSerie])) {
+           return redirect('series');
+        } else {
+            return "erro";
+        }
+
+
+/** forma correta uso orm eloquent*/
+        $nomeSerie = $request->input('nome');
+        if ($nomeSerie != null) {
+            $serie = new Serie();
+            $serie->nome = $nomeSerie;
+            $serie->save();
+            return redirect('series')->with('success', 'Cadastro realizado com sucesso!');
+
+        } else {
+            return redirect('series')->with('danger', 'Cadastro não realizado! Por gentileza preencha o campo corretamente!');
+        }
+    }
+**********
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

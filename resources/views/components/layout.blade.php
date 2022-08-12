@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="container">
-        <h1><p>{{ $header }}</p></h1>
+        <h1><p class="header">{{ $header }}</p></h1>
         {{ $slot }}
     </div>
 </body>

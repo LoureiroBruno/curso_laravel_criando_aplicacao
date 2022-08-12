@@ -6,11 +6,11 @@
             Nova Série
             </x-slot>
 
-
-            <form action="" method="POST">
+            <form action="{{ route('storeSeries') }}" method="POST">
+                @csrf
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome</label>
-                    <input type="nome" class="form-control" id="nome" placeholder="descrição da série">
+                    <input type="nome" class="form-control" id="nome" name="nome" placeholder="Nome do Título da Série">
                 </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary btn-sm mb-3">Salvar</button>
@@ -19,6 +19,4 @@
                 </div>
 
             </form>
-
-
 </x-layout>
